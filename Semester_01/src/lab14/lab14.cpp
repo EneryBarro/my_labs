@@ -8,7 +8,7 @@ int main()
     WIN32_FIND_DATAW wfd;
     unsigned long fsize = 0;
 
-    HANDLE const hFind = FindFirstFileW(L"D:\\Study\\Programming\\my_labs\\lab14\\*", &wfd);
+    HANDLE const hFind = FindFirstFileW(L"D:\\Study\\Programming\\my_labs\\Semester_01\\src\\lab14\\*", &wfd);
     setlocale(LC_ALL, "");
 
     if (INVALID_HANDLE_VALUE != hFind)
