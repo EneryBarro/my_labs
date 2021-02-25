@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-struct BOOK
+struct ANIMALS
 {
     char name[100];
     char сlass[70];
@@ -13,14 +13,14 @@ struct BOOK
 
 bool Binary(const char* filename)
 {
-    BOOK B[4] = {
+    ANIMALS B[4] = {
       { "Anaconda", "Reptilea", 6, "Squamata" },
       { "Leopard", "Mammalia", 10, "Carnivora" },
       { "Hippopotamus", "Mammalia", 36, "Artiodactyla" },
       { "Giraffe", "Mammalia", 15, "Artiodactyla" }
     };
     int n1 = 4;
-    BOOK C[4];
+    ANIMALS C[4];
     int n2;
     int i;
 
@@ -30,7 +30,7 @@ bool Binary(const char* filename)
     outF.write((char*)&n1, sizeof(int));
 
     for (i = 0; i < n1; i++)
-        outF.write((char*)&(B[i]), sizeof(BOOK));
+        outF.write((char*)&(B[i]), sizeof(ANIMALS));
     cout << "Zoo\n" << endl;
 
     outF.close();
@@ -44,7 +44,7 @@ bool Binary(const char* filename)
     inF.read((char*)&n2, sizeof(int));
 
     for (i = 0; i < n2; i++)
-        inF.read((char*)&(C[i]), sizeof(BOOK));
+        inF.read((char*)&(C[i]), sizeof(ANIMALS));
 
     inF.close();
 
