@@ -6,7 +6,7 @@ int main()
     second = first * first;
     third = second * first;
     sixth = third * third;
-    printf("%i\n", sixth);
+    printf("%i\n", sixth);вапрол
     return 0;
 }
 //В результате получаем число 2 в степени 6.
