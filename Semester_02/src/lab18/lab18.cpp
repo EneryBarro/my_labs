@@ -7,8 +7,6 @@
 #include <cstring>
 #include <iomanip>
 
-
-
 using namespace std;
 
 struct Zoo
@@ -22,8 +20,6 @@ struct Zoo
 forward_list<Zoo> ZooList;
 Zoo f;
 
-
-/*ФУНКЦИЯ ЗАНОСИТ ДАННЫЕ В НАЧАЛО СПИСКА*/
 void GetData(forward_list<Zoo>& v)
 {
 
@@ -41,7 +37,6 @@ void GetData(forward_list<Zoo>& v)
 
 }
 
-/*ФУНКЦИЯ ИЗВЛЕКАЕТ ЗАПИСЬ*/
 void ShowData(const forward_list<Zoo>& v)
 {
     cout << "\n";

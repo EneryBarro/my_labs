@@ -1,10 +1,11 @@
-﻿
-#define FILENAME "file.dat"
+﻿#define FILENAME "file.dat"
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <iomanip>
 #include <conio.h>
+#include <ctime>
 #include <Windows.h>
+#include <regex>
 using namespace std;
 
 struct Zoo
@@ -31,9 +32,13 @@ int main()
     SetConsoleCP(1251);
 
     int oper;
-
+    clock_t start = clock();
     do
     {
+        time_t seconds = time(NULL);
+        tm* timeinfo = localtime(&seconds);
+        cout << "\nТекущее время и дата: " << asctime(timeinfo) << endl << endl;
+
         cout << "\n\t\t1\t-\tСФОРМИРОВАТЬ ФАЙЛ" << endl;
         cout << "\t\t2\t-\tРАБОТА С ФАЙЛОМ" << endl;
         cout << "\n\t\t3\t-\tВЫХОД" << endl << endl;
@@ -54,13 +59,24 @@ int main()
         }
 
     } while (oper != 3);
+    clock_t end = clock();
+    printf("\n\nВремя работы программы: %f\n\n", (double)(end - start) / CLOCKS_PER_SEC);
 }
 
 Zoo create()
 {
+    const regex rx("[A-Za-z0-9А-Яа-я_  ,.;:-]");
+
     cout << "\n\tНАЗВАНИЕ: ";
     char name[50];
     cin >> name;
+    if (regex_search(name, rx))
+        cout << "";
+    else
+    {
+        cout << "\n\tЗначение введено не правильно, повторите попытку...\n";
+        create();
+    }
 
     cout << "\n\tКОЛИЧЕСТВО: ";
     int number;
@@ -93,6 +109,7 @@ Zoo create()
     p.age = age;
 
     return p;
+
 }
 
 void form_file()
