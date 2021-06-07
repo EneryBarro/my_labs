@@ -3,22 +3,18 @@
 #include <iostream>
 #include <iomanip>
 #include <conio.h>
-#include <ctime>
 #include <Windows.h>
-#include <regex>
 using namespace std;
-#define TICK(X) clock_t X = clock()
-#define TOCK(X) printf("Время работы программы:\n %s: %g sec.\n", (#X), (double)(clock() - (X)) / CLOCKS_PER_SEC)
-
-void printBuildDate()
-{
-    cout << __DATE__ << endl;
-}
-
-void printBuildTime()
-{
-    cout << __TIME__ << endl;
-}
+#define START__EXEC_TIME(X) clock_t X = clock()
+#define END__EXEC_TIME(X) (clock() - X) 
+#define _DEBUG
+#ifdef _DEBUG
+#define DEBUG_TRACKING(format, ...) \
+  fprintf(stderr, "\n\n===\nDEBUG\n===\n\tDATE : %s\n\tCOMPILE TIME : %s\n\tFUNC : %s()\n\tTR. INFO : " format "\n===\n\n", \
+       __DATE__, __TIME__, __func__, /*##*/__VA_ARGS__)
+#else
+#define DEBUG_TRACKING(format, ...) do{} while(0)
+#endif
 
 struct Zoo
 {
@@ -34,24 +30,22 @@ void console_clear();
 void form_file();
 void read_file();
 void work_file();
-void delete_from_file(int startAge, int endAge, char* surname);
+void delete_from_file(int startAge, int endAge, char* name);
 int clear_file(const char* filename);
 Zoo create();
 
 int main()
 {
+    START__EXEC_TIME(F_MAIN);
+    DEBUG_TRACKING("...");
+
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
 
     int oper;
-    TICK(TIME_A);
+
     do
     {
-        cout << "\nТекущее время и дата: " << endl;
-        printBuildTime();
-        printBuildDate();
-        cout << "Текущая функция: " << __func__ << endl;
-
         cout << "\n\t\t1\t-\tСФОРМИРОВАТЬ ФАЙЛ" << endl;
         cout << "\t\t2\t-\tРАБОТА С ФАЙЛОМ" << endl;
         cout << "\n\t\t3\t-\tВЫХОД" << endl << endl;
@@ -72,17 +66,15 @@ int main()
         }
 
     } while (oper != 3);
-    TOCK(TIME_A);
+    DEBUG_TRACKING("PRG. EXECUTION TIME = %d ms", END__EXEC_TIME(F_MAIN));
 }
 
 Zoo create()
 {
-    cout << "\nТекущая функция: " << __func__;
-
+    DEBUG_TRACKING("...");
     cout << "\n\tНАЗВАНИЕ: ";
     char name[50];
     cin >> name;
-
 
     cout << "\n\tКОЛИЧЕСТВО: ";
     int number;
@@ -115,12 +107,11 @@ Zoo create()
     p.age = age;
 
     return p;
-    
 }
 
 void form_file()
 {
-    cout << "\nТекущая функция: " << __func__ << endl;
+    DEBUG_TRACKING("...");
     cout << "\n\tКОЛ-ВО ЭЛЕМЕНТА = ";
     int count;
     cin >> count;
@@ -144,9 +135,9 @@ void form_file()
 
 void read_file()
 {
+    DEBUG_TRACKING("...");
     FILE* file = fopen("file.dat", "rb");
     Zoo p;
-    cout << "\nТекущая функция: " << __func__ << endl;
     cout << "НАЗВАНИЕ" << setw(15) << "СЕМЕЙСТВО" << setw(30) << "КОНТИНЕНТ ОБИТАНИЯ" << setw(20) << "ВОЗРАСТ" << setw(20) << "КОЛИЧЕСТВО" << setw(20) << "ОКРАС" << endl << endl;
 
     while (fread(&p, sizeof(Zoo), 1, file))
@@ -159,6 +150,7 @@ void read_file()
 
 int clear_file(const char* filename)
 {
+    DEBUG_TRACKING("...");
     FILE* f = NULL;
 
     if (fopen_s(&f, filename, "wb") != 0)
@@ -170,6 +162,7 @@ int clear_file(const char* filename)
 
 void delete_from_file(int startAge, int endAge, char* name)
 {
+    DEBUG_TRACKING("...");
     FILE* file = fopen("file.dat", "rb");
     FILE* tempfile = fopen("temp.dat", "wb");
     Zoo p;
@@ -197,7 +190,7 @@ void delete_from_file(int startAge, int endAge, char* name)
 
 void add_Zoo(Zoo t, int pos)
 {
-    cout << "\nТекущая функция: " << __func__ << endl;
+    DEBUG_TRACKING("...");
     if (pos < 1)
         cout << "\n\tНЕКОРРЕКТНЫЙ НОМЕР" << endl;
     else
@@ -229,8 +222,8 @@ void add_Zoo(Zoo t, int pos)
 
 void work_file()
 {
+    DEBUG_TRACKING("...");
     int oper;
-    cout << "\nТекущая функция: " << __func__ << endl;
     do
     {
         cout << "\n\t\t1\t-\tЧТЕНИЕ ФАЙЛА" << endl;
@@ -291,6 +284,7 @@ void work_file()
 
 void console_clear()
 {
+    DEBUG_TRACKING("...");
     COORD coordScreen = { 0, 0 };
     DWORD cCharsWritten;
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -318,4 +312,3 @@ void console_clear()
 
     SetConsoleCursorPosition(hConsole, coordScreen);
 }
-
