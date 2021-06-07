@@ -7,6 +7,18 @@
 #include <Windows.h>
 #include <regex>
 using namespace std;
+#define TICK(X) clock_t X = clock()
+#define TOCK(X) printf("Время работы программы:\n %s: %g sec.\n", (#X), (double)(clock() - (X)) / CLOCKS_PER_SEC)
+
+void printBuildDate()
+{
+    cout << __DATE__ << endl;
+}
+
+void printBuildTime()
+{
+    cout << __TIME__ << endl;
+}
 
 struct Zoo
 {
@@ -32,13 +44,13 @@ int main()
     SetConsoleCP(1251);
 
     int oper;
-    clock_t start = clock();
+    TICK(TIME_A);
     do
     {
-        time_t seconds = time(NULL);
-        tm* timeinfo = localtime(&seconds);
-        cout << "\nТекущее время и дата: " << asctime(timeinfo) << endl << endl;
-        cout << "\nФункция main\n";
+        cout << "\nТекущее время и дата: " << endl;
+        printBuildTime();
+        printBuildDate();
+        cout << "Текущая функция: " << __func__ << endl;
 
         cout << "\n\t\t1\t-\tСФОРМИРОВАТЬ ФАЙЛ" << endl;
         cout << "\t\t2\t-\tРАБОТА С ФАЙЛОМ" << endl;
@@ -60,13 +72,12 @@ int main()
         }
 
     } while (oper != 3);
-    clock_t end = clock();
-    printf("\n\nВремя работы программы: %f\n\n", (double)(end - start) / CLOCKS_PER_SEC);
+    TOCK(TIME_A);
 }
 
 Zoo create()
 {
-    cout << "\nФункция create";
+    cout << "\nТекущая функция: " << __func__;
 
     cout << "\n\tНАЗВАНИЕ: ";
     char name[50];
@@ -109,7 +120,7 @@ Zoo create()
 
 void form_file()
 {
-    cout << "\nФункция form_file\n";
+    cout << "\nТекущая функция: " << __func__ << endl;
     cout << "\n\tКОЛ-ВО ЭЛЕМЕНТА = ";
     int count;
     cin >> count;
@@ -135,7 +146,7 @@ void read_file()
 {
     FILE* file = fopen("file.dat", "rb");
     Zoo p;
-    cout << "\nФункция read_file\n";
+    cout << "\nТекущая функция: " << __func__ << endl;
     cout << "НАЗВАНИЕ" << setw(15) << "СЕМЕЙСТВО" << setw(30) << "КОНТИНЕНТ ОБИТАНИЯ" << setw(20) << "ВОЗРАСТ" << setw(20) << "КОЛИЧЕСТВО" << setw(20) << "ОКРАС" << endl << endl;
 
     while (fread(&p, sizeof(Zoo), 1, file))
@@ -186,7 +197,7 @@ void delete_from_file(int startAge, int endAge, char* name)
 
 void add_Zoo(Zoo t, int pos)
 {
-    cout << "\nФункция add_Zoo\n";
+    cout << "\nТекущая функция: " << __func__ << endl;
     if (pos < 1)
         cout << "\n\tНЕКОРРЕКТНЫЙ НОМЕР" << endl;
     else
@@ -219,7 +230,7 @@ void add_Zoo(Zoo t, int pos)
 void work_file()
 {
     int oper;
-    cout << "\nФункция work_file\n";
+    cout << "\nТекущая функция: " << __func__ << endl;
     do
     {
         cout << "\n\t\t1\t-\tЧТЕНИЕ ФАЙЛА" << endl;
